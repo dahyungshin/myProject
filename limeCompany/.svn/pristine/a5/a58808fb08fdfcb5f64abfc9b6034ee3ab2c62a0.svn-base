@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="login.dao.LoginDao">
+
+<select id="selectUser" parameterType="UserVO" resultType="UserVO">
+	SELECT 
+		ID AS id,
+		PW AS pw,
+		USER_NM AS userNm,
+		ADMIN_YN AS adminYn,
+		RESET_YN AS resetYn,
+		FAIL_CNT AS failCnt,
+		B_DATE AS bDate
+	FROM USER
+	WHERE ID= #{id}
+</select>
+
+<select id="selectUserList" resultType="UserVO">
+	SELECT
+		ID AS id,
+		PW AS pw,
+		USER_NM AS userNm,
+		ADMIN_YN AS adminYn,
+		RESET_YN AS resetYn,
+		FAIL_CNT AS failCnt,
+		B_DATE AS bDate
+	FROM USER
+</select>
+
+<update id="addFailCnt" parameterType="UserVO">
+	UPDATE
+		USER SET 
+		FAIL_CNT=(FAIL_CNT+1)
+	WHERE ID=#{id}
+</update>
+
+<insert id="insertUser" parameterType="UserVO">
+	INSERT INTO USER
+	(ID, PW, USER_NM, ADMIN_YN, RESET_YN, FAIL_CNT)
+	VALUES
+	(#{id}, #{pw}, #{userNm}, 'N', 'N' ,0)
+</insert>
+
+<update id="updateUser" parameterType="UserVO">
+	UPDATE USER SET
+	<if test="pw != null">
+		PW = #{pw},
+	</if>
+	<if test="userNm != null">
+		USER_NM = #{userNm},
+	</if>
+	<if test="adminYn != null">
+		ADMIN_YN = #{adminYn},
+	</if>
+	<if test="resetYn != null">
+		RESET_YN = #{resetYn},
+	</if>
+	<if test="failCnt != null">
+		FAIL_CNT = #{failCnt}
+	</if>
+	WHERE ID = #{id}
+</update>
+
+<update id="resetPass">
+	UPDATE USER SET
+		FAIL_CNT = 5
+	WHERE ID = #{id}  
+</update>
+
+
+
+</mapper>

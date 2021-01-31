@@ -1,0 +1,11 @@
+package com.lime.user.service.Impl;
+
+import org.springframework.stereotype.Service;
+
+import com.lime.user.service.UserService;
+
+@Service("UserService")
+public class UserServiceImpl implements UserService {
+
+	
+}

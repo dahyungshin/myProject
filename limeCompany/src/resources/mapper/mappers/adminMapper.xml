@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.dao.AdminDao">
+
+
+<select id="duplicateChk" parameterType="UserVO" resultType="UserVO">
+	SELECT 
+		CONCAT(#{userNm}, IF(COUNT(*)=0,'', COUNT(*) ) ) AS id
+	FROM USER 
+	WHERE USER_NM =#{userNm}
+</select>
+
+<select id="selectAttendanceList" parameterType="AttendanceVO" resultType="AttendanceVO">
+	SELECT A.* FROM( 
+	SELECT 
+		A.NO as no,
+		A.USER_ID AS userId,
+		A.DATE AS date,
+		A.DATE_CNT AS dateCnt,
+		A.CODE AS code,
+		B.CODE_NAME AS codeNm,
+		A.APPROVAL_YN AS approvalYn,
+		A.ANNUAL_CNT AS annualCnt,
+		A.REMARK AS remark
+	FROM ATTENDANCE A, CODE B
+	WHERE 1=1
+	AND A.CODE = B.NO
+		<if test="@common.CommonUtils@notEmpty(code)">
+			AND CODE = #{code}
+		</if>
+		<if test="@common.CommonUtils@notEmpty(approvalYn)">
+			AND APPROVAL_YN = #{approvalYn}
+		</if>
+		<if test="@common.CommonUtils@notEmpty(userId)">
+			AND USER_ID = #{userId}
+		</if>
+	ORDER BY DATE DESC
+	)A LIMIT #{start} , #{pageCnt}
+</select>
+
+
+<select id="selectAttendanceCount" parameterType="AttendanceVO" resultType="int">
+	SELECT COUNT(*)	FROM ATTENDANCE A
+	WHERE 1=1
+		<if test="@common.CommonUtils@notEmpty(code)">
+			AND CODE = #{code}
+		</if>
+		<if test="@common.CommonUtils@notEmpty(approvalYn)">
+			AND APPROVAL_YN = #{approvalYn}
+		</if>
+		<if test="@common.CommonUtils@notEmpty(userId)">
+			AND USER_ID = #{userId}
+		</if>
+</select>
+
+<update id="updateAttendance" parameterType="AttendanceVO">
+	UPDATE ATTENDANCE SET
+	APPROVAL_YN = #{approvalYn}
+	WHERE NO = #{no}
+</update>
+
+
+<insert id="insertUser" parameterType="UserVO">
+	INSERT INTO USER
+	(ID, PW, USER_NM, ADMIN_YN, RESET_YN, B_DATE)
+	VALUES(#{id},#{pw},#{userNm},'N','N',#{bDate})
+</insert>
+
+<select id="selectUserList" resultType="UserVO">
+	SELECT ID as id,
+		   USER_NM as userNm,
+		   ADMIN_YN as adminYn,
+		   RESET_YN as resetYn,
+		   B_DATE as bDate
+	FROM USER
+</select>
+
+<select id="selectUserCnt" resultType="int">
+	SELECT COUNT(*)
+	FROM USER
+</select>
+
+</mapper>

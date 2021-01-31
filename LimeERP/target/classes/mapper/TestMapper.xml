@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TestMapper">
+
+	<select id="TestDto" resultType="domain.dto.TestDto">
+		select 
+			USERS.USER_NM,
+			USERS.USER_ID,
+			USERS.USER_PW,
+			USERS.USER_RR_NO,
+			USERS.USER_PHONE_NO,
+			USERS.USER_HIRE_DT,
+			USERS.USER_EMAIL,
+			USERS.USER_ADDRESS			
+		from
+			TB_LIMEERP_USERS USERS
+		where
+			USERS.USER_NM = #{userNm} and
+			USERS.USER_ID = #{userId}
+	</select>
+	
+	<select id="TestList" resultType="domain.dto.TestDto">
+		select 
+			USERS.USER_NM,
+			USERS.USER_ID,
+			USERS.USER_PW,
+			USERS.USER_RR_NO,
+			USERS.USER_PHONE_NO,
+			USERS.USER_HIRE_DT,
+			USERS.USER_EMAIL,
+			USERS.USER_ADDRESS			
+		from
+			TB_LIMEERP_USERS USERS
+	</select>
+	
+	<insert id="TestInsert">
+		insert into 
+			TB_LIMEERP_USERS (USER_NM, USER_ID, USER_RR_NO, USER_PHONE_NO, USER_HIRE_DT)
+		values
+			(#{userNm}, #{userId}, #{userRrNo}, #{userPhoneNo}, #{userHireDt})
+	</insert>
+ 
+</mapper>

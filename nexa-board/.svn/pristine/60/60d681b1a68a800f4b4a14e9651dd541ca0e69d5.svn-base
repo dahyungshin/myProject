@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="tabPage1" width="1010" height="180" titletext="강사기본정보" onload="tabPage1_onload">
+    <Layouts>
+      <Layout height="180" mobileorientation="landscape" width="1010">
+        <Edit id="edt00" taborder="0" left="70" top="10" width="200" height="20" readonly="true"/>
+        <Static id="sta00" taborder="1" text="강사번호" left="10" top="10" width="60" height="20"/>
+        <Edit id="edt01" taborder="2" left="330" top="10" width="200" height="20"/>
+        <Static id="sta01" taborder="3" text="강사명" left="270" top="10" width="60" height="20"/>
+        <Edit id="edt02" taborder="4" left="70" top="50" width="720" height="20"/>
+        <Static id="sta02" taborder="5" text="주소" left="10" top="50" width="60" height="20"/>
+        <Static id="sta03" taborder="6" text="강사등급" left="270" top="30" width="60" height="20"/>
+        <Static id="sta04" taborder="7" text="전화번호" left="530" top="10" width="60" height="20"/>
+        <Static id="sta05" taborder="8" text="생년월일" left="10" top="30" width="60" height="20"/>
+        <Static id="sta06" taborder="9" text="고용일" left="530" top="30" width="60" height="20"/>
+        <Combo id="cbo00" taborder="10" text="cbo00" left="330" top="30" width="200" height="20" innerdataset="dsCd" codecolumn="code" datacolumn="codeNm"/>
+        <MaskEdit id="msk00" taborder="11" left="70" top="30" width="200" height="20" format="@@@@'-'@@'-'@@" type="string" maskchar=" "/>
+        <MaskEdit id="msk01" taborder="12" left="590" top="30" width="200" height="20" format="@@@@'-'@@'-'@@" type="string" maskchar=" "/>
+        <MaskEdit id="msk02" taborder="13" left="590" top="10" width="200" height="20" format="@@@'-'@@@@'-'@@@@" type="string" maskchar=" "/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsLec" useclientlayout="true" onrowposchanged="dsLec_onrowposchanged">
+        <ColumnInfo>
+          <Column id="lecNo" type="STRING" size="256"/>
+          <Column id="lecNm" type="STRING" size="256"/>
+          <Column id="telNo" type="STRING" size="256"/>
+          <Column id="birthDy" type="STRING" size="256"/>
+          <Column id="address" type="STRING" size="256"/>
+          <Column id="lecLvSeCd" type="STRING" size="256"/>
+          <Column id="lecLvSeNm" type="STRING" size="256"/>
+          <Column id="hireDy" type="STRING" size="256"/>
+          <Column id="regDt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCd" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="codeNm" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSear" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="codeSeCd" type="STRING" size="256"/>
+          <Column id="lecNo" type="STRING" size="256"/>
+          <Column id="careerSeCd" type="STRING" size="256"/>
+          <Column id="careerNo" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.tabPage1_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsSear.clearData();
+	this.dsSear.addRow();
+	this.dsSear.setColumn(0, "codeSeCd", "LEC_LV_SE_CD");
+	this.fn_selectCodeList("dsCd2");
+	
+	this.dsLec.clearData();
+	this.dsLec.addRow();
+};
+
+
+/************************************************************************************************
+ * CALLBACK 콜백 처리부분(Transaction, Popup)
+ ************************************************************************************************/
+
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+	// 에러 시 화면 처리 내역
+	if(errorCode != 0)
+	{
+		return;
+	}
+	
+	switch(svcID)
+	{
+		case "selectCodeList":
+			break;
+	}
+};
+
+
+/************************************************************************************************
+* TRANSACTION 서비스 호출 처리
+************************************************************************************************/
+
+this.fn_selectCodeList = function()
+{
+	var strSvcId    = "selectCodeList";
+	var strSvcUrl   = "selectCodeList.do";
+	var inData      = "input1=dsSear";
+	var outData     = "dsCd=output1";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item7" compid="edt00" propid="value" datasetid="dsLec" columnid="lecNo"/>
+      <BindItem id="item8" compid="edt01" propid="value" datasetid="dsLec" columnid="lecNm"/>
+      <BindItem id="item9" compid="edt02" propid="value" datasetid="dsLec" columnid="address"/>
+      <BindItem id="item10" compid="cbo00" propid="value" datasetid="dsLec" columnid="lecLvSeCd"/>
+      <BindItem id="item11" compid="msk00" propid="value" datasetid="dsLec" columnid="birthDy"/>
+      <BindItem id="item12" compid="msk01" propid="value" datasetid="dsLec" columnid="hireDy"/>
+      <BindItem id="item13" compid="msk02" propid="value" datasetid="dsLec" columnid="telNo"/>
+    </Bind>
+  </Form>
+</FDL>

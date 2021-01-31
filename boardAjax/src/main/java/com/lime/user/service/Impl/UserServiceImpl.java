@@ -1,0 +1,23 @@
+package com.lime.user.service.Impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.lime.user.service.UserService;
+
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
+
+@Service("userService")
+public class UserServiceImpl implements UserService {
+
+	@Resource(name="userDAO")
+	private UserDAO userDAO;
+
+	@Override
+	public int UserIdCheck(String userId) throws EgovBizException {
+		// TODO Auto-generated method stub
+		return userDAO.userIdCheck(userId);
+	}
+} 
+ 

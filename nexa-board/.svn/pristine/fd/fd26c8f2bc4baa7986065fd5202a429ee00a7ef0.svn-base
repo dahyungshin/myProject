@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="test" width="1280" height="720" titletext="New Form" onload="test_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Grid id="grd01" taborder="0" left="10" top="30" height="230" autofittype="col" binddataset="dsAccount" ondropdown="grd01_ondropdown" right="10">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="214"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="수익/비용"/>
+                <Cell col="1" text="관"/>
+                <Cell col="2" text="항"/>
+                <Cell col="3" text="목"/>
+                <Cell col="4" text="과"/>
+                <Cell col="5" text="내용"/>
+                <Cell col="6" text="금액"/>
+                <Cell col="7" text="거래일자"/>
+                <Cell col="8" text="작성자"/>
+                <Cell col="9" text="등록일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:profitCostNm" combodataset="dsCd00" combocodecol="code" combodatacol="comKor" suppress="1"/>
+                <Cell col="1" text="bind:bigGroupNm" combodataset="dsCd01" combocodecol="code" combodatacol="comKor" suppress="1"/>
+                <Cell col="2" text="bind:middleGroupNm" combodataset="dsCd02" combocodecol="code" combodatacol="comKor" suppress="1"/>
+                <Cell col="3" text="bind:smallGroupNm" combodataset="dsCd03" combocodecol="code" combodatacol="comKor" suppress="1"/>
+                <Cell col="4" text="bind:detailGroupNm" combodataset="dsCd04" combocodecol="code" combodatacol="comKor" suppress="1"/>
+                <Cell col="5" text="bind:comments" editmaxlength="100"/>
+                <Cell col="6" text="bind:transactionMoney" maskeditformat="#,#" editmaxlength="11"/>
+                <Cell col="7" text="bind:transactionDate" displaytype="date" calendardisplaynulltype="none" suppress="1"/>
+                <Cell col="8" text="bind:writer"/>
+                <Cell col="9" text="bind:regDate" displaytype="date" maskeditformat="####-##-##" calendardisplaynulltype="none" suppress="1"/>
+              </Band>
+              <Band id="summary">
+                <Cell/>
+                <Cell col="1"/>
+                <Cell col="2"/>
+                <Cell col="3"/>
+                <Cell col="4"/>
+                <Cell col="5"/>
+                <Cell col="6" text="expr:dataset.getSum(&quot;transactionMoney&quot;)" maskeditformat="#,#" displaytype="mask"/>
+                <Cell col="7"/>
+                <Cell col="8"/>
+                <Cell col="9"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="addBtn" taborder="1" text="추가" top="10" width="60" height="20" onclick="addBtn_onclick" right="130"/>
+        <Button id="btn01" taborder="2" text="삭제" top="10" width="60" height="20" onclick="btn01_onclick" right="70"/>
+        <Button id="btn02" taborder="3" text="저장" top="10" height="20" onclick="btn02_onclick" right="10" width="60"/>
+        <Div id="div00" taborder="4" text="div00" left="10" top="269" width="1263" height="22" border="0px none">
+          <Layouts>
+            <Layout>
+              <Combo id="cbo00" taborder="0" text="cbo00" left="0" top="0" width="109" height="20" innerdataset="dsCd00" codecolumn="code" datacolumn="comKor" index="-1" onitemchanged="div00_cbo00_onitemchanged" ondropdown="div00_cbo00_ondropdown"/>
+              <Combo id="cbo01" taborder="1" text="cbo00" left="109" top="0" width="109" height="20" innerdataset="dsCd01" codecolumn="code" datacolumn="comKor" onitemchanged="div00_cbo01_onitemchanged" ondropdown="div00_cbo01_ondropdown"/>
+              <Combo id="cbo02" taborder="2" text="cbo00" left="218" top="0" width="109" height="20" innerdataset="dsCd02" codecolumn="code" datacolumn="comKor" onitemchanged="div00_cbo02_onitemchanged" ondropdown="div00_cbo02_ondropdown"/>
+              <Combo id="cbo03" taborder="3" text="cbo00" left="327" top="0" width="109" height="20" innerdataset="dsCd03" codecolumn="code" datacolumn="comKor" onitemchanged="div00_cbo03_onitemchanged" ondropdown="div00_cbo03_ondropdown"/>
+              <Combo id="cbo04" taborder="4" text="cbo00" left="436" top="0" width="109" height="20" innerdataset="dsCd04" codecolumn="code" datacolumn="comKor" onitemchanged="div00_cbo04_onitemchanged" ondropdown="div00_cbo04_ondropdown"/>
+              <Edit id="edt00" taborder="5" left="545" top="0" width="280" height="20"/>
+              <MaskEdit id="msk00" taborder="6" left="825" top="0" width="109" height="20" format="#,#"/>
+              <Calendar id="cal00" taborder="7" left="934" top="0" width="109" height="20"/>
+              <Edit id="edt01" taborder="8" left="1043" top="0" width="109" height="20" readonly="true"/>
+              <Calendar id="cal01" taborder="9" left="1152" top="0" width="109" height="20" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsIn">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="dataset" type="STRING" size="256"/>
+          <Column id="level" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsAccount" useclientlayout="true" onrowposchanged="dsAccount_onrowposchanged">
+        <ColumnInfo>
+          <Column id="accountSeq" type="STRING" size="256"/>
+          <Column id="profitCost" type="STRING" size="256"/>
+          <Column id="profitCostNm" type="STRING" size="256"/>
+          <Column id="bigGroup" type="STRING" size="256"/>
+          <Column id="bigGroupNm" type="STRING" size="256"/>
+          <Column id="middleGroup" type="STRING" size="256"/>
+          <Column id="middleGroupNm" type="STRING" size="256"/>
+          <Column id="smallGroup" type="STRING" size="256"/>
+          <Column id="smallGroupNm" type="STRING" size="256"/>
+          <Column id="detailGroup" type="STRING" size="256"/>
+          <Column id="detailGroupNm" type="STRING" size="256"/>
+          <Column id="comments" type="STRING" size="256"/>
+          <Column id="transactionMoney" type="INT" size="256"/>
+          <Column id="transactionDate" type="STRING" size="256"/>
+          <Column id="writer" type="STRING" size="256"/>
+          <Column id="regDate" type="STRING" size="256"/>
+          <Column id="uiRowType" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsAllCode">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="category" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCd00">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="category" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCd01">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="category" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCd02">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="category" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCd03">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="category" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCd04">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="comKor" type="STRING" size="256"/>
+          <Column id="category" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTmpAccount" useclientlayout="true" onrowposchanged="dsAccount_onrowposchanged" oncolumnchanged="dsAccount_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="accountSeq" type="STRING" size="256"/>
+          <Column id="profitCost" type="STRING" size="256"/>
+          <Column id="profitCostNm" type="STRING" size="256"/>
+          <Column id="bigGroup" type="STRING" size="256"/>
+          <Column id="bigGroupNm" type="STRING" size="256"/>
+          <Column id="middleGroup" type="STRING" size="256"/>
+          <Column id="middleGroupNm" type="STRING" size="256"/>
+          <Column id="smallGroup" type="STRING" size="256"/>
+          <Column id="smallGroupNm" type="STRING" size="256"/>
+          <Column id="detailGroup" type="STRING" size="256"/>
+          <Column id="detailGroupNm" type="STRING" size="256"/>
+          <Column id="comments" type="STRING" size="256"/>
+          <Column id="transactionMoney" type="INT" size="256"/>
+          <Column id="transactionDate" type="STRING" size="256"/>
+          <Column id="writer" type="STRING" size="256"/>
+          <Column id="regDate" type="STRING" size="256"/>
+          <Column id="uiRowType" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.test_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_selectCodeInlvl("2", "dsCd00");
+	this.fn_selectCodeInlvl("3", "dsCd01");
+	this.fn_selectCodeInlvl("4", "dsCd02");
+	this.fn_selectCodeInlvl("5", "dsCd03");
+	this.fn_selectCodeInlvl("6", "dsCd04");
+
+	this.fn_searchAccountList();
+};
+
+
+/************************************************************************************************
+ * CALLBACK 콜백 처리부분(Transaction, Popup)
+ ************************************************************************************************/
+
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+	// 에러 시 화면 처리 내역
+	if(errorCode != 0)
+	{
+		return;
+	}
+	
+	switch(svcID)
+	{
+		case "selectCodeInlvl":
+			var dsNm = this.dsIn.getColumn(0, "dataset");
+			this.objects[dsNm].insertRow(0);
+			this.objects[dsNm].setColumn(0, "code", "");
+			this.objects[dsNm].setColumn(0, "comKor", "선택");
+			if(dsNm != "dsCd00"){
+				this.objects[dsNm].filter("code==''")
+			}
+			this.div00.form.components["cbo"+dsNm.substr(4, 6)].set_index(0);
+			break;
+		
+		case "accountList":
+			this.fn_filteringDs(this.dsAccount);
+			break;
+				
+		case "saveAccount":
+			alert("저장되었습니다.");
+			this.fn_searchAccountList();
+			break;
+			
+		case "deleteAccount":
+			alert("삭제되었습니다.");
+			this.fn_searchAccountList();
+			break;	
+	}
+	
+};
+
+
+
+/************************************************************************************************
+* TRANSACTION 서비스 호출 처리
+************************************************************************************************/
+
+this.fn_selectCodeInlvl = function (level, dsNm)
+{
+	this.dsIn.clearData();
+	this.dsIn.addRow();
+	this.dsIn.setColumn(0, "level", level);
+	this.dsIn.setColumn(0, "dataset", dsNm);
+	
+	var strSvcId    = "selectCodeInlvl";
+	var strSvcUrl   = "selectCodeInlvl.do";
+	var inData      = "dsIn=dsIn";
+	var outData     = dsNm+"=output01";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback", false);
+};
+
+this.fn_searchAccountList = function ()
+{
+	var strSvcId    = "accountList";
+	var strSvcUrl   = "accountList.do";
+	var inData      = "";
+	var outData     = "dsAccount=output01";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback", true);
+}
+
+this.fn_saveAccountList = function ()
+{
+ 	var strSvcId    = "saveAccount";
+	var strSvcUrl   = "saveAccount.do";
+	var inData      = "dsAccount=dsAccount";
+	var outData     = "";
+		
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback", true);
+};
+
+this.fn_deleteAccount = function ()
+{
+ 	var strSvcId    = "deleteAccount";
+	var strSvcUrl   = "deleteAccount.do";
+	var inData      = "dsAccount=dsTmpAccount";
+	var outData     = "";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback", true);
+};
+
+
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+//추가버튼
+this.addBtn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsAccount.addRow();
+};
+
+//삭제버튼
+this.btn01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(!this.confirm("삭제하시겠습니까?")){
+		return;
+	}
+
+	this.dsTmpAccount.clearData();
+	this.dsTmpAccount.addRow();
+	this.dsTmpAccount.copyRow(0, this.dsAccount, this.dsAccount.rowposition);
+	
+	this.fn_deleteAccount();
+};
+
+//저장버튼
+this.btn02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+
+	if(!this.confirm("저장하시겠습니까?")){
+		return;
+	}
+
+	for(var i=0; i<this.dsAccount.getRowCount(); i++)
+	{
+		this.dsAccount.setColumn(i, "uiRowType", this.dsAccount.getRowType(i));
+		
+		var mon = this.dsAccount.getColumn(i, "transactionMoney");
+		if(mon != "" && mon != null && mon.toString().length > 11){
+			alert("금액은 11자리 까지 입력가능합니다.");
+			return;
+		}
+	}
+	
+	this.fn_saveAccountList();
+};
+
+//콤보 드롭다운 이벤트
+this.div00_cbo00_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
+{
+	this.fn_resetCombo(3);
+};
+
+this.div00_cbo01_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
+{
+	this.fn_resetCombo(5);
+	this.dsCd01.filter("category=='"+this.dsAccount.getColumn(this.dsAccount.rowposition, "profitCost")+"'||code==''");
+};
+
+this.div00_cbo02_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
+{
+	this.fn_resetCombo(7);
+	this.dsCd02.filter("category=='"+this.dsAccount.getColumn(this.dsAccount.rowposition, "bigGroup")+"'||code==''");
+};
+
+this.div00_cbo03_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
+{
+	this.fn_resetCombo(9);
+	this.dsCd03.filter("category=='"+this.dsAccount.getColumn(this.dsAccount.rowposition, "middleGroup")+"'||code==''");
+};
+
+this.div00_cbo04_ondropdown = function(obj:nexacro.Combo,e:nexacro.EventInfo)
+{
+	this.dsCd04.filter("category=='"+this.dsAccount.getColumn(this.dsAccount.rowposition, "smallGroup")+"'||code==''");
+};
+
+//로우포지션 변경이벤트
+this.dsAccount_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fn_filteringDs(obj);
+};
+
+
+/************************************************************************************************
+* 사용자 FUNCTION 영역
+************************************************************************************************/
+//콤보리셋
+this.fn_resetCombo = function(no)
+{
+	for(var i=no;i<11;i++){
+		this.dsAccount.setColumn(this.dsAccount.rowposition, i, "");
+	}
+}
+
+//데이터셋필터링
+this.fn_filteringDs = function(obj)
+{
+	this.dsCd01.filter("category=='"+obj.getColumn(obj.rowposition, "profitCost")+"'||code==''");
+	this.dsCd02.filter("category=='"+obj.getColumn(obj.rowposition, "bigGroup")+"'||code==''");
+	this.dsCd03.filter("category=='"+obj.getColumn(obj.rowposition, "middleGroup")+"'||code==''");
+	this.dsCd04.filter("category=='"+obj.getColumn(obj.rowposition, "smallGroup")+"'||code==''");
+}]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div00.form.cbo00" propid="value" datasetid="dsAccount" columnid="profitCost"/>
+      <BindItem id="item1" compid="div00.form.cbo01" propid="value" datasetid="dsAccount" columnid="bigGroup"/>
+      <BindItem id="item2" compid="div00.form.cbo02" propid="value" datasetid="dsAccount" columnid="middleGroup"/>
+      <BindItem id="item3" compid="div00.form.cbo03" propid="value" datasetid="dsAccount" columnid="smallGroup"/>
+      <BindItem id="item4" compid="div00.form.cbo04" propid="value" datasetid="dsAccount" columnid="detailGroup"/>
+      <BindItem id="item5" compid="div00.form.edt00" propid="value" datasetid="dsAccount" columnid="comments"/>
+      <BindItem id="item6" compid="div00.form.msk00" propid="value" datasetid="dsAccount" columnid="transactionMoney"/>
+      <BindItem id="item7" compid="div00.form.cal00" propid="value" datasetid="dsAccount" columnid="transactionDate"/>
+      <BindItem id="item8" compid="div00.form.edt01" propid="value" datasetid="dsAccount" columnid="writer"/>
+      <BindItem id="item9" compid="div00.form.cal01" propid="value" datasetid="dsAccount" columnid="regDate"/>
+      <BindItem id="item10" compid="div00.form.cbo00" propid="displaynulltext" datasetid="dsCd00" columnid="comKor"/>
+      <BindItem id="item11" compid="div00.form.cbo01" propid="displaynulltext" datasetid="dsCd01" columnid="comKor"/>
+      <BindItem id="item12" compid="div00.form.cbo02" propid="displaynulltext" datasetid="dsCd02" columnid="comKor"/>
+      <BindItem id="item13" compid="div00.form.cbo03" propid="displaynulltext" datasetid="dsCd03" columnid="comKor"/>
+      <BindItem id="item14" compid="div00.form.cbo04" propid="displaynulltext" datasetid="dsCd04" columnid="comKor"/>
+    </Bind>
+  </Form>
+</FDL>

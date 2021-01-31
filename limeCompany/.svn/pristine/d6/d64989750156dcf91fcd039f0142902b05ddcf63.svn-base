@@ -1,0 +1,13 @@
+Globals.OsType = UNIX
+
+#Globals.LocalIp = 127.0.0.1
+
+Globals.DbType = mysql
+Globals.DriverClassName=com.mysql.cj.jdbc.Driver
+Globals.Url=jdbc:mysql://192.168.0.81:3306/limeDB?serverTimezone=UTC
+Globals.UserName=lime1
+Globals.Password=limeAdmin!@
+
+session_time=7200
+
+

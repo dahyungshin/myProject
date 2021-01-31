@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	@desc		코드 정보를 관리하는 Mapper
+	@author		조승아
+	@version	0.1
+ -->
+<mapper namespace="mapper.CodeInfoMapper">
+
+	<!-- 
+		@desc	코드 구분 조회 - 콤보박스용
+		@param	
+		@return	domain.dto.CodeDto
+	 -->
+	<select id="retrieveCodeDiv" resultType="domain.dto.CodeDto">
+		SELECT COMMCD.COM_DIV_CD
+             , COMMCD.COM_DIV_NM
+          FROM TB_LIMEERP_COMMCD COMMCD
+         WHERE 1 = 1
+           AND USE_FL = 'Y'
+         GROUP BY COMMCD.COM_DIV_CD
+                , COMMCD.COM_DIV_NM
+	</select>
+
+	<!-- 
+		@desc	코드 정보 totalCount 조회
+		@param	domain.dto.CodeDto
+		@return	java.lang.Integer
+		
+		@desc	totalCount 조회 시, 
+				WHERE 절을 페이징 처리를 원하는 쿼리문과 동일하게 작성하여야
+				검색조건이 입력된 경우에도 정상적인 페이징이 가능
+	 -->
+	<select id="retrieveCodeInfoCnt" parameterType="domain.dto.CodeDto" resultType="java.lang.Integer">
+        SELECT COUNT(*)	AS total_Cnt
+          FROM TB_LIMEERP_COMMCD COMMCD
+         WHERE 1 = 1
+           AND USE_FL = 'Y'
+        <if test='comDivCd != null and comDivCd != ""'>
+           AND COMMCD.COM_DIV_CD = #{comDivCd}
+        </if>
+        <if test='comDivNm != null and comDivNm != ""'>
+           AND COMMCD.COM_DIV_NM = #{comDivNm}
+        </if>
+        <if test='detailCd != null and detailCd != ""'>
+           AND COMMCD.DETAIL_CD  = #{detailCd}
+        </if>
+        <if test='detailNm != null and detailNm !=""'>
+           AND COMMCD.DETAIL_NM  = #{detailNm}
+        </if>
+	</select>
+
+	<!-- 
+		@desc	코드 목록 조회
+		@param	domain.dto.CodeDto
+		@return	domain.dto.CodeDto
+		
+		@desc
+			기존 조회문을 subquery 로 이용하며, paging query 로 감싸준다.
+			
+			아래 예제의 경우 
+			1. 기존 쿼리에 ROWNUN 을 추가로 조회하고, 조회할 최대 ROWNUM 을 지정
+			2. 1 번의 쿼리를 subquery 로 하여, 조회된 결과에 포함된 ROWNUM 을 startIndex 로 이용 
+			
+			SELECT TEMP.*
+			  FROM (
+			  		[[ 기존 리스트 조회용 쿼리 ]]
+			  				+
+			  		[[ SELECT 절에 추가 ]] RONNUM AS ROW_NUM
+			  				+
+			  		[[ 조건절에 추가 ]] AND ROWNUM <![CDATA[<]]>= (${startRowNum} + ${recordCountPerPage})
+			  		) TEMP
+			 WHERE TEMP.ROW_NUM > ${startRowNum}
+	 -->
+	<select id="retrieveCodeInfo" parameterType="domain.dto.CodeDto" resultType="domain.dto.CodeDto">
+        SELECT COMMCD.*
+          FROM (SELECT ROWNUM AS ROW_NUM
+                     , TEMP.*
+                  FROM (SELECT CD_NO
+                             , COM_DIV_CD
+                             , COM_DIV_NM
+                             , DETAIL_CD
+                             , DETAIL_NM
+                             , USE_FL
+                             , REG_DT
+                             , REG_USR_ID
+                             , CHG_DT
+                             , CHG_USR_ID
+                          FROM TB_LIMEERP_COMMCD
+                         WHERE 1 = 1
+                           AND USE_FL = 'Y'
+                        <if test='comDivCd != null and comDivCd != ""'>
+                           AND COM_DIV_CD = #{comDivCd}
+                        </if>
+                        <if test='comDivNm != null and comDivNm != ""'>
+                           AND COM_DIV_NM = #{comDivNm}
+                        </if>
+                        <if test='detailCd != null and detailCd != ""'>
+                           AND DETAIL_CD  = #{detailCd}
+                        </if>
+                        <if test='detailNm != null and detailNm !=""'>
+                           AND DETAIL_NM  = #{detailNm}
+                        </if>
+                         ORDER BY COM_DIV_CD
+                                , DETAIL_CD) TEMP
+                 WHERE ROWNUM <![CDATA[<]]>= (${startRowNum} + ${recordCountPerPage})) COMMCD
+         WHERE COMMCD.ROW_NUM > ${startRowNum}
+	</select>
+	
+	<!-- 
+		@desc	코드 구분 조회 - 콤보박스용
+		@param	domain.dto.CodeDto
+		@return	
+	 -->
+	<insert id="createCodeInfo" parameterType="domain.dto.CodeDto">
+        INSERT INTO TB_LIMEERP_COMMCD
+             ( CD_NO
+             , COM_DIV_CD
+             , COM_DIV_NM
+             , DETAIL_CD
+             , DETAIL_NM
+             , USE_FL)
+        VALUES ( 'COMCD' || LPAD(TO_CHAR(TB_LIMEERP_COMMCD_CD_NO.NEXTVAL), 5, 0)
+              , #{comDivCd}
+              , (SELECT DISTINCT COM_DIV_NM FROM TB_LIMEERP_COMMCD WHERE COM_DIV_CD = #{comDivCd})
+              , #{detailCd}
+              , #{detailNm}
+              , 'Y')
+	</insert>
+
+</mapper>

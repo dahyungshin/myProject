@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+externalMigrateFromAuthorizationDatabase/isMigrated=true
+migrateFromAuthorizationDatabase/isMigrated=true
+repositories/e006fee4ff61001b1e73a19102b5bd87=e006fee4ff61001b1e73a19102b5bd87;https\://192.168.0.74\:20443/svn/limeEdu;https\://192.168.0.74\:20443/svn/limeEdu;branches;tags;trunk;true;00fdb310-fb02-e64f-b0aa-e11138a90b68;https\://192.168.0.74\:20443/svn/limeEdu;;false;;;0

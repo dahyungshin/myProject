@@ -1,0 +1,10 @@
+package com.lime.user.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public interface UserService {
+	
+	public int UserIdCheck(String userId);
+
+}

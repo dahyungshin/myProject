@@ -1,0 +1,15 @@
+.inner{width:80%; margin:0 auto;}
+.inner>h1{text-align:center;}
+.w100{width:100%}
+.w10{width:10%}
+.w15{width:15%}
+.w85{width:85%}
+.center{text-align:center;}
+.center>td{text-align: center;}
+.right{float:right;}
+.left{float:left;}
+.table{font-size: 16px;}
+#header > .btn-wrap{height:42px; border-bottom: 1px solid black;}
+
+#pagingNav{height:100px;margin:0 auto; text-align: center;}
+#pagingNav >a,#pagingNav >span {margin:0 2px 0 2px; font-size: 16px;}

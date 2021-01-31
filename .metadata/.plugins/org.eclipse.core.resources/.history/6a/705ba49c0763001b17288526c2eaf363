@@ -1,0 +1,44 @@
+package ino.web.paging;
+
+
+
+public class PagingDTO {
+	
+	public static String PagingMaker(int cp , int TotalCnt , int ListSize, int PageSize ){
+		StringBuffer sb = new StringBuffer();
+		//전체리스트 개수
+		int TotalPage = TotalCnt/ListSize;
+		if(TotalCnt%ListSize != 0)TotalPage++;
+		if(TotalPage < cp)cp=TotalPage;
+		int StartPage = ((cp-1)/PageSize)*PageSize+1;
+		int EndPage = StartPage + PageSize - 1;
+		int PageGroup = cp / PageSize ;
+		if(cp%PageSize == 0) PageGroup--;
+		if(StartPage > 1){
+			sb.append("<a href='main.ino?cp=1' class='page'>처음</a>&nbsp;");
+		}
+		if(cp > 1){ 
+			sb.append("<a href='main.ino?cp="+(cp-1)+"' class='page'>이전</a>&nbsp;");
+		}
+		for(int i=PageGroup*PageSize+1; i<=PageGroup*PageSize+PageSize; i++ ){
+			sb.append("<a href='main.ino?cp="+i);
+			sb.append("' class='page'>"+i+"</a>&nbsp;");   
+			if(i == TotalPage)break;
+		}   
+		if(cp <= TotalPage){
+				sb.append("<a href='main.ino?cp="+(StartPage*PageSize+1)+"' class='page'>다음</a>&nbsp;");
+			
+		}
+		if(EndPage < TotalPage){ 
+			sb.append("<a href='main.ino?cp="+TotalPage+"' class='page'>끝</a>");
+		} 
+		System.out.println("cp : " + cp);
+		System.out.println("cp+(PageSize-cp) : " + (StartPage*PageSize+1));
+		System.out.println("TotalCnt : " + TotalCnt);
+		System.out.println("TotalPage : " + TotalPage);  
+		System.out.println("StartPage : " + StartPage); 
+		System.out.println("EndPage : " + EndPage);
+		return sb.toString();   
+	}
+	
+}

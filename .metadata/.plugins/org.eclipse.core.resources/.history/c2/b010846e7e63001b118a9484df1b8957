@@ -1,0 +1,13 @@
+package com.lime.user.service.Impl;
+
+import org.springframework.stereotype.Repository;
+
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
+
+@Repository("UserService")
+public class UserDAO extends EgovAbstractMapper{
+	
+	public int userIdCheck(String userId)  {
+		return selectOne("userIdCheck", userId);
+	}
+}

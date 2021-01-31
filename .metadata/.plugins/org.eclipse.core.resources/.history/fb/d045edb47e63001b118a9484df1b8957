@@ -1,0 +1,5 @@
+package com.lime.common.service;
+
+public interface UserService {
+
+}

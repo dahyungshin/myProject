@@ -1,0 +1,7 @@
+package com.lime.user.service.Impl;
+
+import com.lime.user.service.UserService;
+
+public class UserServiceImpl implements UserService {
+
+}

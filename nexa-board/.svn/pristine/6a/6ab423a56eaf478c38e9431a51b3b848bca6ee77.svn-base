@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="test" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Grid id="grd01" taborder="0" left="10" top="30" height="316" autofittype="col" right="10">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="214"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="수익/비용"/>
+                <Cell col="1" text="관"/>
+                <Cell col="2" text="항"/>
+                <Cell col="3" text="목"/>
+                <Cell col="4" text="과"/>
+                <Cell col="5" text="내용"/>
+                <Cell col="6" text="금액"/>
+                <Cell col="7" text="거래일자"/>
+                <Cell col="8" text="작성자"/>
+                <Cell col="9" text="등록일"/>
+              </Band>
+              <Band id="body">
+                <Cell text=""/>
+                <Cell col="1" text=""/>
+                <Cell col="2" text=""/>
+                <Cell col="3" text=""/>
+                <Cell col="4" text=""/>
+                <Cell col="5" text=""/>
+                <Cell col="6" text=""/>
+                <Cell col="7" text=""/>
+                <Cell col="8" text=""/>
+                <Cell col="9" text=""/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="addBtn" taborder="1" text="추가" left="1090" top="10" width="60" height="20"/>
+        <Button id="btn01" taborder="2" text="삭제" left="1150" top="10" width="60" height="20"/>
+        <Button id="btn02" taborder="3" text="저장" top="10" height="20" right="10" width="60"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************************
+ * CALLBACK 콜백 처리부분(Transaction, Popup)
+ ************************************************************************************************/
+
+/************************************************************************************************
+* TRANSACTION 서비스 호출 처리
+************************************************************************************************/
+
+/************************************************************************************************
+ * 각 COMPONENT 별 EVENT 영역
+************************************************************************************************/
+
+/************************************************************************************************
+* 사용자 FUNCTION 영역
+************************************************************************************************/]]></Script>
+  </Form>
+</FDL>

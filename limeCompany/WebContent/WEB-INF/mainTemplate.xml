@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    템플릿을 정의한다.
+    Sitemesh에서는 템플릿을 decorator 라고 부른다.
+    
+    decorators 에 필요한 속성으로
+    defaultdir 이라는 속성이 있는데,
+    이 속성은 decorator의 page가 존재하는 경로를 적는다.
+-->
+<decorators defaultdir="/WEB-INF/">
+	<excludes> 
+		<pattern>/admin/joinPop.ino</pattern>
+	</excludes>
+
+    <decorator name="adminTemplate" title="라임컴퍼니Title" page="template/adminTemplate.jsp">
+    	<pattern>/admin/*</pattern>
+    </decorator>
+    
+    <decorator name="userTemplate" title="라임컴퍼니" page="template/userTemplate.jsp">
+    	<pattern>/user/*</pattern>
+    </decorator>
+    
+    <decorator name="noTemplate" title="라임컴퍼니" page="template/nolayout.jsp">
+    	<pattern>login*</pattern>
+    </decorator>
+ 
+</decorators>

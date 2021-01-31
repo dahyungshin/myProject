@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ino.web.freeBoard.mapper.FreeBoardMapper">
+	
+	<sql id="Serach">
+		<if test="type == 'title">
+		UPPER(TITLE) LIKE UPPER('%'||#{SearchText}||'%')
+		</if>
+		<if test="type == 'name">
+		UPPER(NAME) LIKE UPPER('%'||#{SearchText}||'%')
+		</if>
+		<if test="type == 'content">
+		UPPER(CONTENT) LIKE UPPER('%'||#{SearchText}||'%')
+		</if>
+	</sql>
+	<select id="freeBoardGetList" resultType="freeBoardDto" parameterType="Map"> <!-- resultType="ino.web.board.dto.BoardDto" -->
+		SELECT NUM
+			, TITLE
+			, NAME
+			, TO_CHAR(REGDATE,'YYYY-MM-DD') REGDATE
+			, CONTENT 
+		FROM (SELECT 
+				ROWNUM AS RNUM 
+				, A.* 
+				FROM (
+		SELECT * FROM FREEBOARD ORDER BY NUM DESC)A)B 
+		WHERE RNUM <![CDATA[>=]]> #{StartList} AND RNUM <![CDATA[<=]]> #{EndList}
+	</select> 
+	
+	<select id="freeBoardGetList" resultType="freeBoardDto" parameterType="Map"> <!-- resultType="ino.web.board.dto.BoardDto" -->
+		SELECT NUM
+			, TITLE
+			, NAME
+			, TO_CHAR(REGDATE,'YYYY-MM-DD') REGDATE
+			, CONTENT 
+		FROM (SELECT 
+				ROWNUM AS RNUM 
+				, A.* 
+				FROM (
+		SELECT * FROM FREEBOARD ORDER BY NUM DESC)A)B 
+		WHERE <include refid="Serach"></include>
+		AND RNUM <![CDATA[>=]]> #{StartList} AND RNUM <![CDATA[<=]]> #{EndList}
+	</select> 
+	<insert id="freeBoardInsertPro" parameterType="freeBoardDto" >
+	<selectKey keyColumn="num" order="BEFORE" resultType="int" keyProperty="num">
+		SELECT FREEBOARDNUM_SEQ.nextval FROM dual  
+	</selectKey>
+		INSERT INTO FREEBOARD(NUM, TITLE, NAME, REGDATE, CONTENT) 
+		VALUES( #{num}, #{title}, #{name}, SYSDATE, #{content}) 
+	</insert>   
+	 
+	<select id="freeBoardDetailByNum" resultType="freeBoardDto" parameterType="int">
+		SELECT NUM, TITLE, NAME, TO_CHAR(REGDATE,'YYYY-MM-DD') REGDATE, CONTENT FROM FREEBOARD
+		WHERE NUM=#{num} 
+	</select>
+	<update id="freeBoardModify" parameterType="ino.web.freeBoard.dto.FreeBoardDto" >
+		UPDATE FREEBOARD SET NAME = #{name} , CONTENT = #{content} WHERE NUM = #{num}  
+	</update>
+	<delete id="freeBoardDelete" parameterType="int">
+	    DELETE FROM FREEBOARD WHERE NUM = #{num} 
+	</delete>
+	
+	<select id="freeBoardTotalCnt" resultType="int"> 
+		SELECT COUNT(*) FROM FREEBOARD
+	</select>
+</mapper> 

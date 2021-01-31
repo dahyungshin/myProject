@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserInfoMapper">
+	
+	<select id="selectUserInfo" resultType="domain.dto.UserInfoDto">
+		select 
+			USERS.USER_NM,
+			USERS.USER_ID,
+			USERS.USER_PW,
+			USERS.USER_RR_NO,
+			USERS.USER_PHONE_NO,
+			USERS.USER_HIRE_DT,
+			USERS.USER_EMAIL,
+			USERS.USER_ADDRESS			
+		from
+			TB_LIMEERP_USERS USERS
+	</select>
+	
+	<insert id="insertUserInfo">
+		insert into 
+			TB_LIMEERP_USERS (USER_NM, USER_ID, USER_RR_NO, USER_PHONE_NO, USER_HIRE_DT, CREATED_ID)
+		values
+			(#{userNm}, #{userId}, #{userRrNo}, #{userPhoneNo}, #{userHireDt}, #{createdId})
+	</insert>
+	
+	<update id="updateUserInfo">
+		update TB_LIMEERP_USERS 
+		set 
+			USER_NM = #{userNm}, USER_PW = #{userPw}, USER_PHONE_NO = #{userPhoneNo}, USER_EMAIL = #{userEmail}, 
+			USER_ADDRESS = #{userAddress}, UPDATED_DT = #{updatedDt}, UPDATED_ID = #{updatedId}
+		where
+			USER_NM = #{userNm} and
+			USER_Id = #{userId}
+	</update>
+	
+	<delete id="deleteUserInfo">
+		delete from 
+			TB_LIMEERP_USERS USERS 
+		where 
+			USER_NM = #{userNm} and 
+			USER_ID = #{userId}
+	</delete>
+	
+</mapper>

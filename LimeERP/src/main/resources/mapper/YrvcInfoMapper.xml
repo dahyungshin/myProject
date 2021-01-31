@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.YrvcInfoMapper">
+
+	<select id="selectYrvcInfo" resultType="domain.dto.YrvcInfoDto">
+		select 
+			YRVC.USER_NM,
+			YRVC.USER_ID,
+			YRVC.USER_HIRE_DT,
+			YRVC.CREATE_DT,
+			YRVC.CREATE_ID,
+			YRVC.UPDATE_DT,
+			YRVC.UPDATE_ID,
+			YRVC.OCCRRNC_YRVC_CNT,
+			YRVC.REM_YRVC_CNT
+		from
+			TB_LIMEERP_YRVC_MANAGE YRVC
+		where
+			YRVC.USER_ID = #{userId}
+	</select>
+	
+	<select id="selectYrvcInfos" resultType="domain.dto.YrvcInfoDto">
+		select 
+			YRVC.USER_NM,
+			YRVC.USER_ID,
+			YRVC.USER_HIRE_DT,
+			YRVC.CREATE_DT,
+			YRVC.CREATE_ID,
+			YRVC.UPDATE_DT,
+			YRVC.UPDATE_ID,
+			YRVC.OCCRRNC_YRVC_CNT,
+			YRVC.REM_YRVC_CNT
+		from
+			TB_LIMEERP_YRVC_MANAGE YRVC
+		order by YRVC.USER_NM
+	</select>
+	
+	<insert id="insertYrvcInfo" parameterType="domain.dto.YrvcInfoDto">
+		insert into 
+			TB_LIMEERP_YRVC_MANAGE (
+				USER_NM,
+				USER_ID,
+				USER_HIRE_DT,
+				CREATE_DT,
+				CREATE_ID,
+				OCCRRNC_YRVC_CNT,
+				REM_YRVC_CNT,
+				WORK_YEAR
+			)
+		values (
+			#{userNm},
+			#{userId},
+			#{userHireDt},
+			#{createDt},
+			#{createId},
+			#{occrrncYrvcCnt},
+			#{remYrvcCnt},
+			#{workYear}
+			)
+	</insert>
+	
+	<update id="updateYrvcInfo" parameterType="domain.dto.YrvcInfoDto">
+		update TB_LIMEERP_YRVC_MANAGE
+		set
+			UPDATE_DT        = #{updateDt}, 
+			UPDATE_ID        = #{updateId},         
+			REM_YRVC_CNT     = #{remYrvcCnt}
+		where
+			USER_ID = #{userId}
+	</update>
+	
+	<update id="updateYrvcInfoForSchedule" parameterType="domain.dto.YrvcInfoDto">
+		update TB_LIMEERP_YRVC_MANAGE
+		set
+			UPDATE_DT        = #{updateDt}, 
+			UPDATE_ID        = #{updateId},         
+			OCCRRNC_YRVC_CNT = #{occrrncYrvcCnt}, 
+			REM_YRVC_CNT     = #{remYrvcCnt},
+			WORK_YEAR        = #{workYear}
+		where
+			USER_ID = #{userId}
+	</update>
+	
+ 	
+ 	<delete id="deleteYrvcInfo">
+ 		delete from 
+			TB_LIMEERP_YRVC_MANAGE
+		where 
+			USER_ID = #{userId}
+ 	</delete>
+ 	
+</mapper>

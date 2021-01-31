@@ -1,0 +1,36 @@
+package com.lime.user.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.lime.user.service.UserService;
+
+@Controller
+public class UserController {
+	
+	@Autowired
+	private UserService userService ;  
+	
+	@RequestMapping(value="/user/userInsert.do")
+	public String userInsert() {
+		
+		return "/user/userInsert";
+	}
+	
+		
+	@RequestMapping(value="/user/userIdcked.do")
+	@ResponseBody
+	public String modify(@RequestBody String user_id) throws Exception {
+		String userId = user_id;
+		int count = userService.UserIdCheck(userId);
+		return "{count:"+count+"}";
+ 
+	}
+
+
+
+}   
+  

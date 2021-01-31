@@ -1,0 +1,5 @@
+package ino.web.freeBoard.dto;
+
+public class SearchDTO {
+
+}

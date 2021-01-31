@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="tabPage1" width="1010" height="180" titletext="강사이력정보" onload="tabPage1_onload">
+    <Layouts>
+      <Layout height="180" mobileorientation="landscape" width="1010">
+        <Combo id="cbo00" taborder="0" text="cbo00" left="20" top="20" width="150" height="20" innerdataset="dsCd" codecolumn="code" datacolumn="codeNm" index="-1" onitemchanged="cbo00_onitemchanged"/>
+        <Grid id="grd01" taborder="1" left="20" top="40" height="100" right="191" binddataset="dsCar" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="경력번호"/>
+                <Cell col="1" text="내용"/>
+                <Cell col="2" text="시작일"/>
+                <Cell col="3" text="종료일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:careerNo"/>
+                <Cell col="1" text="bind:description" edittype="text"/>
+                <Cell col="2" text="bind:startDy" edittype="date"/>
+                <Cell col="3" text="bind:endDy" edittype="date"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCd" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="codeNm" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSear" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="codeSeCd" type="STRING" size="256"/>
+          <Column id="lecNo" type="STRING" size="256"/>
+          <Column id="careerSeCd" type="STRING" size="256"/>
+          <Column id="careerNo" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCar" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="lecNo" type="STRING" size="256"/>
+          <Column id="careerSeCd" type="STRING" size="256"/>
+          <Column id="careerSeNm" type="STRING" size="256"/>
+          <Column id="careerNo" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="startDy" type="STRING" size="256"/>
+          <Column id="endDy" type="STRING" size="256"/>
+          <Column id="sortNo" type="STRING" size="256"/>
+          <Column id="regDt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.tabPage1_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsSear.clearData();
+	this.dsSear.addRow();
+	this.dsSear.setColumn(0, "codeSeCd", "CAREER_SE_CD");
+	this.fn_selectCodeList();
+	
+};
+
+
+/************************************************************************************************
+ * CALLBACK 콜백 처리부분(Transaction, Popup)
+ ************************************************************************************************/
+
+this.fnCallback = function(svcID,errorCode,errorMsg)
+{
+	// 에러 시 화면 처리 내역
+	if(errorCode != 0)
+	{
+		return;
+	}
+	
+	switch(svcID)
+	{
+		case "selectCodeList":
+			this.cbo00.set_index(0);
+			break;
+	}
+};
+
+
+/************************************************************************************************
+* TRANSACTION 서비스 호출 처리
+************************************************************************************************/
+
+this.fn_selectCodeList = function()
+{
+	var strSvcId    = "selectCodeList";
+	var strSvcUrl   = "selectCodeList.do";
+	var inData      = "input1=dsSear";
+	var outData     = "dsCd=output1";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback");
+};
+
+this.fn_selectCareerList = function()
+{
+	this.dsSear.clearData();
+	this.dsSear.addRow();
+	this.dsSear.setColumn(0, "lecNo", this.parent.parent.parent.dsLec.getColumn(this.parent.parent.parent.dsLec.rowposition, "lecNo"));
+	this.dsSear.setColumn(0, "careerSeCd", this.cbo00.value);
+	
+	var strSvcId    = "selectCareerList";
+	var strSvcUrl   = "selectCareerList.do";
+	var inData      = "input1=dsSear";
+	var outData     = "dsCar=output1";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, "", "fnCallback");
+};
+]]></Script>
+  </Form>
+</FDL>

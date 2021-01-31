@@ -1,0 +1,5 @@
+package ino.web.freeBoard.controller;
+
+public class FileBoardController {
+
+}
